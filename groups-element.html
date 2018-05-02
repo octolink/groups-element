@@ -1,0 +1,158 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+
+
+
+<!--
+<dom-module id="groups-element">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    /**
+     * `groups-element`
+     * 
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class GroupsElement extends Polymer.Element {
+      static get is() { return 'groups-element'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'groups-element'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(GroupsElement.is, GroupsElement);
+  </script>
+</dom-module>
+-->
+
+
+
+<dom-module id="groups-element">
+
+
+
+<template>
+  
+<iron-ajax
+    auto
+    url="https://paul.admin.linkrd.com/sportsnet/hkplayoff18/fanapi?action=get_groups&response_format=json"
+    params='{"action":"get_groups","response_format":"json"}'
+    handle-as="json"
+    last-response="{{ajaxResponse}}"></iron-ajax>
+
+<div id="join_group">
+<div id="groups_list">
+  <div class="groups-list-section has-trashtalk">
+    
+    <template is="dom-repeat" items="{{ajaxResponse.result}}">
+    <div id="group_{{item.groupID}}" class="section-content-article group-{{item.type}} {{item.active}}">
+      <div class="article-header">
+        <span class="article-logo">
+            <span class="no-groups-logo"></span>
+        </span>
+        <span class="article-name">{{item.group_name}}</span>
+        <span class="article-state state-{{item.type}}"></span>
+      </div>
+    </div>
+
+    </template>
+    
+  </div>
+</div>
+</div>
+  
+</template>
+
+<script>
+  
+var data = [
+  {
+    "groupID": "820317",
+    "group_name": "-   IENHL Play Offs Pickem   -",
+    "users_in_group": 124,
+    "group_image_exists": 1,
+    "private": 0,
+    "group_slogan": "These guys are better than good!- https://groups.yahoo.com/neo/groups/ICES_ELITE/info",
+    "creator_userID": "20070375",
+    "creator_username": "ICEBROOD",
+    "last_membership_change": "Apr 30 2018 05:51PM",
+    "last_trash_time": null,
+    "allow_trashtalk": 0,
+    "allow_private_messages": 1,
+    "allow_group_kill": 1,
+    "group_logo": "/contests/ugc/sportsnet/3734/img/groups/820317"
+  },
+  {
+    "groupID": "822836",
+    "group_name": "-   PHIL KESSELS HAIRCUT   -",
+    "users_in_group": 102,
+    "group_image_exists": 1,
+    "private": 0,
+    "group_slogan": "The G.O.A.T is alive",
+    "creator_userID": "23104494",
+    "creator_username": "fitterlife",
+    "last_membership_change": "Apr 30 2018 02:26AM",
+    "last_trash_time": null,
+    "allow_trashtalk": 0,
+    "allow_private_messages": 1,
+    "allow_group_kill": 1,
+    "group_logo": "/contests/ugc/sportsnet/3734/img/groups/822836"
+  }
+]
+      
+    
+  
+class GroupsElement extends Polymer.Element {
+  
+  static get is() { return "groups-element"; }
+  
+  static get properties() {
+    return {
+      feed: { type:String },
+      ajaxResponse: data
+    }
+  }
+  
+  constructor() {
+    super();
+    this.list = [];
+    //this.push('list',{GameID:0,AwayTeam:'Away',HomeTeam:'Home'});
+  }
+  
+  // standard Polymer callbacks
+  ready() {
+    super.ready();
+    
+    for (var i=0;i<2;i++) {
+      console.log(data[i]);
+      this.push('list',data[i]);
+    }
+    
+  }
+  
+}
+
+
+customElements.define(GroupsElement.is, GroupsElement);
+
+
+
+</script>
+
+</dom-module>
